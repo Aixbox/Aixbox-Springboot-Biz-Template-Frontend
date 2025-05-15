@@ -10,6 +10,7 @@ import {
   defaultResponseInterceptor,
   errorMessageResponseInterceptor,
   RequestClient,
+  stringify,
 } from '@vben/request';
 import { useAccessStore } from '@vben/stores';
 
@@ -20,6 +21,9 @@ import { useAuthStore } from '#/store';
 import { refreshTokenApi } from './core';
 
 const { apiURL } = useAppConfig(import.meta.env, import.meta.env.PROD);
+
+// TODO 使用动态获取配置
+const clientId = 'e5cd7e4891bf95d1d19206ce24a7b32e';
 
 function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   const client = new RequestClient({
@@ -64,9 +68,27 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   client.addRequestInterceptor({
     fulfilled: async (config) => {
       const accessStore = useAccessStore();
-
+      // 添加token
       config.headers.Authorization = formatToken(accessStore.accessToken);
-      config.headers['Accept-Language'] = preferences.app.locale;
+      config.headers.ClientID = clientId;
+
+      /**
+       * 格式化get/delete参数
+       * 如果包含自定义的paramsSerializer则不走此逻辑
+       */
+      if (
+        ['DELETE', 'GET'].includes(config.method?.toUpperCase() || '') &&
+        config.params &&
+        !config.paramsSerializer
+      ) {
+        /**
+         * 1. 格式化参数 微服务在传递区间时间选择(后端的params Map类型参数)需要格式化key 否则接收不到
+         * 2. 数组参数需要格式化 后端才能正常接收 会变成arr=1&arr=2&arr=3的格式来接收
+         */
+        config.paramsSerializer = (params) =>
+          stringify(params, { arrayFormat: 'repeat' });
+      }
+
       return config;
     },
   });

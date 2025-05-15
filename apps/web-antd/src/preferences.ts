@@ -10,4 +10,8 @@ export const overridesPreferences = defineOverridesPreferences({
   app: {
     name: import.meta.env.VITE_APP_TITLE,
   },
+  logo: {
+    enable: true,
+    source: 'https://antfu.me/assets/p-2025-04-26-13-20-25-000-1-bd3BC_s4.jpg',
+  },
 });

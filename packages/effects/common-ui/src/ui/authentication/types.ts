@@ -1,3 +1,21 @@
+/**
+ * 登录类型
+ * password 密码
+ * sms 短信
+ * social 第三方oauth
+ * email 邮箱
+ * xcx 小程序
+ */
+type GrantType = 'email' | 'password' | 'sms' | 'social' | 'xcx';
+
+interface LoginAndRegisterParams {
+  code?: string;
+  grantType: GrantType;
+  password: string;
+  username: string;
+  uuid?: string;
+}
+
 interface AuthenticationProps {
   /**
    * @zh_CN 验证码登录路径
@@ -67,4 +85,4 @@ interface AuthenticationProps {
   submitButtonText?: string;
 }
 
-export type { AuthenticationProps };
+export type { AuthenticationProps, GrantType, LoginAndRegisterParams };
