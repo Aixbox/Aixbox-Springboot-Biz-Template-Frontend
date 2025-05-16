@@ -17,6 +17,7 @@ async function generateRoutesByBackend(
   const { fetchMenuListAsync, layoutMap = {}, pageMap = {} } = options;
 
   try {
+    console.log('触发调用generateRoutesByBackend', options);
     const menuRoutes = await fetchMenuListAsync?.();
     if (!menuRoutes) {
       return [];

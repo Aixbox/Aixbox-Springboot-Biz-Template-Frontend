@@ -26,6 +26,7 @@ async function generateAccessible(
 
   options.routes = cloneDeep(options.routes);
   // 生成路由
+  console.log('生成路由', options.routes);
   const accessibleRoutes = await generateRoutes(mode, options);
 
   const root = router.getRoutes().find((item) => item.path === '/');
@@ -83,8 +84,10 @@ async function generateRoutes(
   const { forbiddenComponent, roles, routes } = options;
 
   let resultRoutes: RouteRecordRaw[] = routes;
+  console.log('触发backend', mode);
   switch (mode) {
     case 'backend': {
+      console.log('触发backend', mode);
       resultRoutes = await generateRoutesByBackend(options);
       break;
     }

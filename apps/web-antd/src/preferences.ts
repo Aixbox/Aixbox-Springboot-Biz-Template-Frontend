@@ -8,6 +8,10 @@ import { defineOverridesPreferences } from '@vben/preferences';
 export const overridesPreferences = defineOverridesPreferences({
   // overrides
   app: {
+    /**
+     * 不要动这里  后端路由模式
+     */
+    accessMode: 'backend',
     name: import.meta.env.VITE_APP_TITLE,
   },
   logo: {

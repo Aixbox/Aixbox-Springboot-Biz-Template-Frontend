@@ -20,7 +20,6 @@ The rules are consistent with [Vite Env Variables and Modes](https://vitejs.dev/
   ```ts
   console.log(import.meta.env.VITE_PROT);
   ```
-
 - Variables starting with `VITE_GLOB_*` will be added to the `_app.config.js` configuration file during packaging. :::
 
 :::
@@ -123,7 +122,6 @@ To add a new dynamically modifiable configuration item, simply follow the steps 
   ```bash
   VITE_GLOB_OTHER_API_URL=https://mock-napi.vben.pro/other-api
   ```
-
 - In `packages/types/global.d.ts`, add the corresponding type definition, such as:
 
   ```ts
