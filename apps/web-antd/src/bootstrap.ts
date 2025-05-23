@@ -9,6 +9,7 @@ import '@vben/styles/antd';
 
 import { useTitle } from '@vueuse/core';
 
+import { setupGlobalComponent } from '#/components/global';
 import { $t, setupI18n } from '#/locales';
 
 import { initComponentAdapter } from './adapter/component';
@@ -30,6 +31,8 @@ async function bootstrap(namespace: string) {
 
   const app = createApp(App);
 
+  // 全局组件
+  setupGlobalComponent(app);
   // 注册v-loading指令
   registerLoadingDirective(app, {
     loading: 'loading', // 在这里可以自定义指令名称，也可以明确提供false表示不注册这个指令

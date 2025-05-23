@@ -1,4 +1,4 @@
-import type { AxiosInstance, AxiosResponse } from 'axios';
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 import type { RequestClientConfig, RequestClientOptions } from './types';
 
@@ -97,6 +97,20 @@ class RequestClient {
   }
 
   /**
+   * DELETE请求方法 成功会弹出msg
+   */
+  public deleteWithMsg<T = any>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ): Promise<T> {
+    return this.request<T>(url, {
+      ...config,
+      method: 'DELETE',
+      successMessageMode: 'message',
+    });
+  }
+
+  /**
    * GET请求方法
    */
   public get<T = any>(url: string, config?: RequestClientConfig): Promise<T> {
@@ -112,6 +126,22 @@ class RequestClient {
     config?: RequestClientConfig,
   ): Promise<T> {
     return this.request<T>(url, { ...config, data, method: 'POST' });
+  }
+
+  /**
+   * POST请求方法 成功会弹出msg
+   */
+  public postWithMsg<T = any>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig,
+  ): Promise<T> {
+    return this.request<T>(url, {
+      ...config,
+      data,
+      method: 'POST',
+      successMessageMode: 'message',
+    });
   }
 
   /**
@@ -140,6 +170,7 @@ class RequestClient {
           ? { paramsSerializer: getParamsSerializer(config.paramsSerializer) }
           : {}),
       });
+      console.log('response', response);
       return response as T;
     } catch (error: any) {
       throw error.response ? error.response.data : error;

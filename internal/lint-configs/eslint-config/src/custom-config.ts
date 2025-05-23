@@ -40,6 +40,8 @@ const customConfig: Linter.Config[] = [
     files: ['apps/**/**'],
     ignores: restrictedImportIgnores,
     rules: {
+      // 允许使用void类型
+      '@typescript-eslint/no-invalid-void-type': 'off',
       'no-restricted-imports': [
         'error',
         {
