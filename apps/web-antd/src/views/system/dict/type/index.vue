@@ -7,8 +7,9 @@ import type { DictType } from '#/api/system/dict/dict-type-model';
 import { ref } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
+import { getVxePopupContainer } from '@vben/utils';
 
-import { Modal, Space } from 'ant-design-vue';
+import { Modal, Popconfirm, Space } from 'ant-design-vue';
 
 import { useVbenVxeGrid, vxeCheckboxChecked } from '#/adapter/vxe-table';
 import {
@@ -89,6 +90,11 @@ async function handleRefreshCache() {
   await tableApi.query();
 }
 
+async function handleEdit(record: DictType) {
+  modalApi.setData({ id: record.id });
+  modalApi.open();
+}
+
 function handleDownloadExcel() {
   commonDownloadExcel(
     dictTypeExport,
@@ -109,6 +115,11 @@ function handleMultiDelete() {
       await tableApi.query();
     },
   });
+}
+
+async function handleDelete(row: DictType) {
+  await dictTypeRemove([row.id]);
+  await tableApi.query();
 }
 
 function handleAdd() {
@@ -151,6 +162,33 @@ const [DictTypeModal, modalApi] = useVbenModal({
           </a-button>
         </Space>
       </template>
+      <template #action="{ row }">
+        <Space>
+          <ghost-button
+            v-access:code="['system:dict:edit']"
+            @click.stop="handleEdit(row)"
+          >
+            {{ $t('pages.common.edit') }}
+          </ghost-button>
+          <Popconfirm
+            :get-popup-container="
+              (node) => getVxePopupContainer(node, 'dict-type')
+            "
+            placement="left"
+            title="确认删除？"
+            @confirm="handleDelete(row)"
+          >
+            <ghost-button
+              danger
+              v-access:code="['system:dict:remove']"
+              @click.stop=""
+            >
+              {{ $t('pages.common.delete') }}
+            </ghost-button>
+          </Popconfirm>
+        </Space>
+      </template>
     </BasicTable>
+    <DictTypeModal @reload="tableApi.query()" />
   </div>
 </template>

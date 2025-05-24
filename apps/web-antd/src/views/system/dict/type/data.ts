@@ -1,6 +1,8 @@
 import type { FormSchemaGetter } from '#/adapter/form';
 import type { VxeGridProps } from '#/adapter/vxe-table';
 
+import { z } from '#/adapter/form';
+
 export const querySchema: FormSchemaGetter = () => [
   {
     component: 'Input',
@@ -39,5 +41,37 @@ export const columns: VxeGridProps['columns'] = [
     title: '操作',
     resizable: false,
     width: 'auto',
+  },
+];
+
+export const modalSchema: FormSchemaGetter = () => [
+  {
+    component: 'Input',
+    dependencies: {
+      show: () => false,
+      triggerFields: [''],
+    },
+    fieldName: 'dictId',
+    label: 'dictId',
+  },
+  {
+    component: 'Input',
+    fieldName: 'dictName',
+    label: '字典名称',
+    rules: 'required',
+  },
+  {
+    component: 'Input',
+    fieldName: 'dictType',
+    help: '使用英文/下划线命名, 如:sys_normal_disable',
+    label: '字典类型',
+    rules: z
+      .string()
+      .regex(/^[a-z_]+$/i, { message: '字典类型只能使用英文/下划线命名' }),
+  },
+  {
+    component: 'Textarea',
+    fieldName: 'remark',
+    label: '备注',
   },
 ];

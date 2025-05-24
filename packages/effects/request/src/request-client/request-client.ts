@@ -156,6 +156,22 @@ class RequestClient {
   }
 
   /**
+   * PUT请求方法 成功会弹出msg
+   */
+  public putWithMsg<T = any>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig,
+  ): Promise<T> {
+    return this.request<T>(url, {
+      ...config,
+      data,
+      method: 'PUT',
+      successMessageMode: 'message',
+    });
+  }
+
+  /**
    * 通用的请求方法
    */
   public async request<T>(
@@ -170,7 +186,6 @@ class RequestClient {
           ? { paramsSerializer: getParamsSerializer(config.paramsSerializer) }
           : {}),
       });
-      console.log('response', response);
       return response as T;
     } catch (error: any) {
       throw error.response ? error.response.data : error;
