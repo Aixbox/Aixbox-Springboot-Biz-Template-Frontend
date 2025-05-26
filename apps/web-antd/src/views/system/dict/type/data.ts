@@ -51,8 +51,8 @@ export const modalSchema: FormSchemaGetter = () => [
       show: () => false,
       triggerFields: [''],
     },
-    fieldName: 'dictId',
-    label: 'dictId',
+    fieldName: 'id',
+    label: 'id',
   },
   {
     component: 'Input',

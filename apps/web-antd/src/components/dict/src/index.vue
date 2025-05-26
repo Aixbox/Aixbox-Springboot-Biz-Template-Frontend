@@ -1,3 +1,4 @@
+<!-- eslint-disable eqeqeq -->
 <script setup lang="ts">
 import type { DictData } from '#/api/system/dict/dict-data-model';
 

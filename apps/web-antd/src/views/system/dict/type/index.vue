@@ -33,6 +33,7 @@ const formOptions: VbenFormProps = {
   },
   schema: querySchema(),
   wrapperClass: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3',
+  submitOnEnter: true,
 };
 
 const gridOptions: VxeGridProps = {
@@ -46,8 +47,6 @@ const gridOptions: VxeGridProps = {
   },
   columns,
   height: 'auto',
-  keepSource: true,
-  pagerConfig: {},
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues = {}) => {
@@ -60,7 +59,7 @@ const gridOptions: VxeGridProps = {
     },
   },
   rowConfig: {
-    keyField: 'dictId',
+    keyField: 'id',
     // 高亮当前行
     isCurrent: true,
   },
@@ -192,3 +191,14 @@ const [DictTypeModal, modalApi] = useVbenModal({
     <DictTypeModal @reload="tableApi.query()" />
   </div>
 </template>
+
+<style lang="scss">
+div#dict-type {
+  .vxe-body--row {
+    &.row--current {
+      // 选中行bold
+      @apply font-semibold;
+    }
+  }
+}
+</style>

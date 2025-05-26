@@ -14,6 +14,15 @@ enum Api {
 }
 
 /**
+ * 主要是DictTag组件使用
+ * @param dictType 字典类型
+ * @returns 字典数据
+ */
+export function dictDataInfo(dictType: string) {
+  return requestClient.get<DictData[]>(`${Api.root}/type/${dictType}`);
+}
+
+/**
  * 字典数据
  * @param params 查询参数
  * @returns 字典数据列表

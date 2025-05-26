@@ -7,7 +7,6 @@ import { requestClient } from '#/api/request';
 
 enum Api {
   add = '/system/dict/type/add',
-  dictOptionSelectList = '/system/dict/type/optionselect',
   dictTypeExport = '/system/dict/type/export',
   dictTypeList = '/system/dict/type/list',
   dictTypeRefreshCache = '/system/dict/type/refreshCache',
