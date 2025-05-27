@@ -1,4 +1,4 @@
-import type { Menu, MenuQuery } from './model';
+import type { Menu, MenuOption, MenuQuery, MenuResp } from './model';
 
 import type { ID, IDS } from '#/api/common';
 
@@ -7,6 +7,8 @@ import { requestClient } from '#/api/request';
 enum Api {
   add = '/system/menu/add',
   menuList = '/system/menu/list',
+  menuTreeSelect = '/system/menu/treeselect',
+  roleMenuTree = '/system/menu/roleMenuTreeselect',
   root = '/system/menu',
   update = '/system/menu/update',
 }
@@ -51,4 +53,21 @@ export function menuInfo(menuId: ID) {
  */
 export function menuUpdate(data: Partial<Menu>) {
   return requestClient.putWithMsg<void>(Api.update, data);
+}
+
+/**
+ * 返回对应角色的菜单
+ * @param roleId id
+ * @returns resp
+ */
+export function roleMenuTreeSelect(roleId: ID) {
+  return requestClient.get<MenuResp>(`${Api.roleMenuTree}/${roleId}`);
+}
+
+/**
+ * 下拉框使用  返回所有的菜单
+ * @returns []
+ */
+export function menuTreeSelect() {
+  return requestClient.get<MenuOption[]>(Api.menuTreeSelect);
 }
