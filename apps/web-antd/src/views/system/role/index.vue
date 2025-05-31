@@ -27,6 +27,7 @@ import {
   roleList,
   roleRemove,
 } from '#/api/system/role';
+import { TableSwitch } from '#/components/table';
 import { commonDownloadExcel } from '#/utils/file/download';
 
 import { columns, querySchema } from './data';
@@ -189,7 +190,7 @@ function handleAssignRole(record: Role) {
         <!-- 租户管理员不可修改admin角色 防止误操作 -->
         <!-- 超级管理员可通过租户切换来操作租户管理员角色 -->
         <template
-          v-if="row.superAdmin && (row.roleKey !== 'admin' || isSuperAdmin)"
+          v-if="!row.superAdmin && (row.roleKey !== 'admin' || isSuperAdmin)"
         >
           <Space>
             <ghost-button
