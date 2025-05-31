@@ -81,7 +81,7 @@ async function initDeptUsers(id: number | string) {
   const ret = await listUserByDeptId(id);
   const options = ret.map((user) => ({
     label: `${user.userName} | ${user.nickName}`,
-    value: user.userId,
+    value: user.id,
   }));
   formApi.updateSchema([
     {
