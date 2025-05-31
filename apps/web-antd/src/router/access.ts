@@ -68,6 +68,8 @@ function backMenuToVbenMenu(
       /^https?:\/\//.test(menu.path) &&
       (menu.component === 'Layout' || menu.component === 'ParentView')
     ) {
+      console.log(menu.name);
+      console.log(menu.component);
       menu.component = 'Link';
     }
 
@@ -207,6 +209,7 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
       });
       // 后台返回路由/菜单
       const backMenuList = await getAllMenusApi();
+      console.log('backMenuList', backMenuList);
       // 转换为vben能用的路由
       const vbenMenuList = backMenuToVbenMenu(backMenuList);
       // 特别注意 这里要深拷贝

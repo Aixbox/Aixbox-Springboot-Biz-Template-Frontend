@@ -6,10 +6,12 @@ import { commonExport } from '#/api/helper';
 import { requestClient } from '#/api/request';
 
 enum Api {
+  add = '/system/post/add',
   postExport = '/system/post/export',
-  postList = '/system/post/list',
+  postList = '/system/post/page',
   postSelect = '/system/post/optionselect',
   root = '/system/post',
+  update = '/system/post/update',
 }
 
 /**
@@ -45,7 +47,7 @@ export function postInfo(postId: ID) {
  * @returns void
  */
 export function postAdd(data: Partial<Post>) {
-  return requestClient.postWithMsg<void>(Api.root, data);
+  return requestClient.postWithMsg<void>(Api.add, data);
 }
 
 /**
@@ -54,7 +56,7 @@ export function postAdd(data: Partial<Post>) {
  * @returns void
  */
 export function postUpdate(data: Partial<Post>) {
-  return requestClient.putWithMsg<void>(Api.root, data);
+  return requestClient.putWithMsg<void>(Api.update, data);
 }
 
 /**

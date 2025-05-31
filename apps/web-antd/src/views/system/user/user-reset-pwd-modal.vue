@@ -58,7 +58,7 @@ async function handleOpenChange(open: boolean) {
 
   const { record } = modalApi.getData() as { record: User };
   currentUser.value = record;
-  await formApi.setValues({ userId: record.userId });
+  await formApi.setValues({ userId: record.id });
 
   modalApi.modalLoading(false);
 }
@@ -97,7 +97,7 @@ async function handleClosed() {
     <div class="flex flex-col gap-[12px]">
       <Descriptions v-if="currentUser" size="small" :column="1" bordered>
         <DescriptionsItem label="用户ID">
-          {{ currentUser.userId }}
+          {{ currentUser.id }}
         </DescriptionsItem>
         <DescriptionsItem label="用户名">
           {{ currentUser.userName }}

@@ -71,7 +71,6 @@ export function listToTree<T = any>(
   const nodeMap = new Map();
   const result: T[] = [];
   const { id, pid, children } = conf;
-
   for (const node of list) {
     node[children] = node[children] || [];
     nodeMap.set(node[id], node);

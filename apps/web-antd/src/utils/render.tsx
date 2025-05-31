@@ -18,3 +18,32 @@ export function renderDict(value: number | string, dictName: string) {
   const dictInfo = getDictOptions(dictName);
   return renderDictTag(value, dictInfo);
 }
+
+/**
+ * render多个dictTag
+ * @param value key数组 string[]类型
+ * @param dicts 字典数组
+ * @param wrap 是否需要换行显示
+ * @param [gap] 间隔
+ * @returns render
+ */
+export function renderDictTags(
+  value: string[],
+  dicts: DictData[],
+  wrap = true,
+  gap = 1,
+) {
+  if (!Array.isArray(value)) {
+    return <div>{value}</div>;
+  }
+  return (
+    <div
+      class={['flex', wrap ? 'flex-col' : 'flex-row']}
+      style={{ gap: `${gap}px` }}
+    >
+      {value.map((item, index) => {
+        return <div key={index}>{renderDictTag(item, dicts)}</div>;
+      })}
+    </div>
+  );
+}

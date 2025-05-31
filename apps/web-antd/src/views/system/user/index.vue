@@ -139,18 +139,18 @@ function handleAdd() {
 }
 
 function handleEdit(row: User) {
-  userDrawerApi.setData({ id: row.userId });
+  userDrawerApi.setData({ id: row.id });
   userDrawerApi.open();
 }
 
 async function handleDelete(row: User) {
-  await userRemove([row.userId]);
+  await userRemove([row.id]);
   await tableApi.query();
 }
 
 function handleMultiDelete() {
   const rows = tableApi.grid.getCheckboxRecords();
-  const ids = rows.map((row: User) => row.userId);
+  const ids = rows.map((row: User) => row.id);
   Modal.confirm({
     title: '提示',
     okType: 'danger',
@@ -172,7 +172,7 @@ const [UserInfoModal, userInfoModalApi] = useVbenModal({
   connectedComponent: userInfoModal,
 });
 function handleUserInfo(row: User) {
-  userInfoModalApi.setData({ userId: row.userId });
+  userInfoModalApi.setData({ userId: row.id });
   userInfoModalApi.open();
 }
 

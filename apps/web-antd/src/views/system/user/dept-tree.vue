@@ -47,7 +47,6 @@ async function loadTree() {
   selectDeptId.value = [];
 
   const ret = await getDeptTree();
-
   deptTreeArray.value = ret;
   showTreeSkeleton.value = false;
 }
@@ -102,7 +101,7 @@ onMounted(loadTree);
             @select="$emit('select')"
           >
             <template #title="{ label }">
-              <span v-if="label.indexOf(searchValue) > -1">
+              <span v-if="label && label.includes(searchValue)">
                 {{ label.substring(0, label.indexOf(searchValue)) }}
                 <span style="color: #f50">{{ searchValue }}</span>
                 {{

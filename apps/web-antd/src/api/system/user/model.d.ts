@@ -17,7 +17,7 @@ export interface ResetPwdParam {
 }
 
 export interface Dept {
-  deptId: number;
+  id: number;
   parentId: number;
   parentName?: string;
   ancestors: string;
@@ -31,7 +31,7 @@ export interface Dept {
 }
 
 export interface Role {
-  roleId: string;
+  id: string;
   roleName: string;
   roleKey: string;
   roleSort: number;
@@ -46,7 +46,7 @@ export interface Role {
 }
 
 export interface User {
-  userId: string;
+  id: string;
   tenantId: string;
   deptId: number;
   userName: string;
@@ -70,7 +70,7 @@ export interface User {
 }
 
 export interface Post {
-  postId: number;
+  id: number;
   postCode: string;
   postName: string;
   postSort: number;

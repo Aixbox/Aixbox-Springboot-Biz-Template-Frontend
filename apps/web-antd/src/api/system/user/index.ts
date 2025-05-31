@@ -94,7 +94,7 @@ export function findUserInfo(userId?: ID) {
  * @returns void
  */
 export function userAdd(data: Partial<User>) {
-  return requestClient.postWithMsg<void>(Api.root, data);
+  return requestClient.postWithMsg<void>(Api.add, data);
 }
 
 /**
@@ -103,7 +103,7 @@ export function userAdd(data: Partial<User>) {
  * @returns void
  */
 export function userUpdate(data: Partial<User>) {
-  return requestClient.putWithMsg<void>(Api.root, data);
+  return requestClient.putWithMsg<void>(Api.update, data);
 }
 
 /**
@@ -113,7 +113,7 @@ export function userUpdate(data: Partial<User>) {
  */
 export function userStatusChange(data: Partial<User>) {
   const requestData = {
-    userId: data.userId,
+    id: data.id,
     status: data.status,
   };
   return requestClient.putWithMsg<void>(Api.userStatusChange, requestData);

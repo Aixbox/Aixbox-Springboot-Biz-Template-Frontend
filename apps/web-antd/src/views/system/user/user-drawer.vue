@@ -173,7 +173,7 @@ const [BasicDrawer, drawerApi] = useVbenDrawer({
     const { postIds, posts, roleIds, roles, user } = await findUserInfo(id);
     const postOptions = (posts ?? []).map((item) => ({
       label: item.postName,
-      value: item.postId,
+      value: item.id,
     }));
     formApi.updateSchema([
       {
@@ -184,7 +184,7 @@ const [BasicDrawer, drawerApi] = useVbenDrawer({
             label: genRoleOptionlabel(item),
             // title用于选中后回填到输入框 默认为label
             title: item.roleName,
-            value: item.roleId,
+            value: item.id,
           })),
         },
         fieldName: 'roleIds',

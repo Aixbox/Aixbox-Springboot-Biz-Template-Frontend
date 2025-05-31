@@ -2,7 +2,7 @@
  * @description: Post interface
  */
 export interface Post {
-  postId: number;
+  id: number;
   postCode: string;
   postName: string;
   postSort: number;

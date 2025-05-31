@@ -1,5 +1,5 @@
 export interface SysConfig {
-  configId: number;
+  id: number;
   configName: string;
   configKey: string;
   configValue: string;

@@ -43,11 +43,11 @@ async function handleOpenChange(open: boolean) {
   const { postIds = [], posts = [], roleIds = [], roles = [], user } = response;
 
   const postNames = posts
-    .filter((item) => postIds.includes(item.postId))
+    .filter((item) => postIds.includes(item.id))
     .map((item) => item.postName);
 
   const roleNames = roles
-    .filter((item) => roleIds.includes(item.roleId))
+    .filter((item) => roleIds.includes(item.id))
     .map((item) => item.roleName);
 
   (user as UserWithNames).postNames = postNames;
@@ -89,7 +89,7 @@ const diffLoginTime = computed(() => {
   <BasicModal :footer="false" :fullscreen-button="false" title="用户信息">
     <Descriptions v-if="currentUser" size="small" :column="1" bordered>
       <DescriptionsItem label="userId">
-        {{ currentUser.userId }}
+        {{ currentUser.id }}
       </DescriptionsItem>
       <DescriptionsItem label="用户状态">
         <component

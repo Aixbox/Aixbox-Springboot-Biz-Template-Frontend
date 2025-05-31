@@ -98,7 +98,7 @@ export const drawerSchema: FormSchemaGetter = () => [
       show: () => false,
       triggerFields: [''],
     },
-    fieldName: 'userId',
+    fieldName: 'id',
   },
   {
     component: 'Input',

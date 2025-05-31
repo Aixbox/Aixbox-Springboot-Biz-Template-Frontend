@@ -6,7 +6,7 @@ import { requestClient } from '#/api/request';
 
 enum Api {
   add = '/system/dept/add',
-  deptList = '/system/dept/page',
+  deptList = '/system/dept/list',
   deptNodeInfo = '/system/dept/list/exclude',
   root = '/system/dept',
   update = '/system/dept/update',

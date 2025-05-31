@@ -6,11 +6,13 @@ import { commonExport } from '#/api/helper';
 import { requestClient } from '#/api/request';
 
 enum Api {
+  add = '/system/config/add',
   configExport = '/system/config/export',
   configInfoByKey = '/system/config/configKey',
-  configList = '/system/config/list',
+  configList = '/system/config/page',
   configRefreshCache = '/system/config/refreshCache',
   root = '/system/config',
+  update = '/system/config/update',
 }
 
 /**
@@ -47,7 +49,7 @@ export function configRefreshCache() {
  * @param data 参数
  */
 export function configUpdate(data: Partial<SysConfig>) {
-  return requestClient.putWithMsg<void>(Api.root, data);
+  return requestClient.putWithMsg<void>(Api.update, data);
 }
 
 /**
@@ -55,7 +57,7 @@ export function configUpdate(data: Partial<SysConfig>) {
  * @param data 参数
  */
 export function configAdd(data: Partial<SysConfig>) {
-  return requestClient.postWithMsg<void>(Api.root, data);
+  return requestClient.postWithMsg<void>(Api.add, data);
 }
 
 /**

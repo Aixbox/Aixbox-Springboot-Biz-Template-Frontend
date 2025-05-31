@@ -8,3 +8,4 @@ export * from './mitt';
 export * from './reset-routes';
 export * from './tree';
 export * from './unmount-global-loading';
+export * from './uuid';
