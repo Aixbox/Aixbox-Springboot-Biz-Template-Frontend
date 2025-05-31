@@ -8,7 +8,7 @@ enum Api {
   add = '/system/menu/add',
   menuList = '/system/menu/list',
   menuTreeSelect = '/system/menu/treeselect',
-  roleMenuTree = '/system/menu/roleMenuTreeselect',
+  roleMenuTree = '/system/menu/roleMenuTreeSelect',
   root = '/system/menu',
   update = '/system/menu/update',
 }

@@ -106,7 +106,7 @@ export const drawerSchema: FormSchemaGetter = () => [
       show: () => false,
       triggerFields: [''],
     },
-    fieldName: 'roleId',
+    fieldName: 'id',
     label: '角色ID',
   },
   {
@@ -173,7 +173,7 @@ export const authModalSchemas: FormSchemaGetter = () => [
       show: () => false,
       triggerFields: [''],
     },
-    fieldName: 'roleId',
+    fieldName: 'id',
     label: '角色ID',
   },
   {

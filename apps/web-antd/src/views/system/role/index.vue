@@ -61,7 +61,7 @@ const gridOptions: VxeGridProps = {
     reserve: true,
     // 点击行选中
     // trigger: 'row',
-    checkMethod: ({ row }) => row.roleId !== 1,
+    checkMethod: ({ row }) => row.id !== 1,
   },
   columns,
   height: 'auto',
@@ -79,7 +79,7 @@ const gridOptions: VxeGridProps = {
     },
   },
   rowConfig: {
-    keyField: 'roleId',
+    keyField: 'id',
   },
   id: 'system-role-index',
 };
@@ -100,7 +100,7 @@ function handleDownloadExcel() {
 
 function handleMultiDelete() {
   const rows = tableApi.grid.getCheckboxRecords();
-  const ids = rows.map((row: Role) => row.roleId);
+  const ids = rows.map((row: Role) => row.id);
   Modal.confirm({
     title: '提示',
     okType: 'danger',
@@ -120,12 +120,12 @@ function handleAdd() {
 const { hasAccessByCodes, hasAccessByRoles } = useAccess();
 
 async function handleEdit(record: Role) {
-  drawerApi.setData({ id: record.roleId });
+  drawerApi.setData({ id: record.id });
   drawerApi.open();
 }
 
 async function handleDelete(row: Role) {
-  await roleRemove([row.roleId]);
+  await roleRemove([row.id]);
   await tableApi.query();
 }
 
@@ -134,13 +134,13 @@ const [RoleAuthModal, authModalApi] = useVbenModal({
 });
 
 function handleAuthEdit(record: Role) {
-  authModalApi.setData({ id: record.roleId });
+  authModalApi.setData({ id: record.id });
   authModalApi.open();
 }
 
 const router = useRouter();
 function handleAssignRole(record: Role) {
-  router.push(`/system/role-assign/${record.roleId}`);
+  router.push(`/system/role-assign/${record.id}`);
 }
 </script>
 
@@ -178,7 +178,7 @@ function handleAssignRole(record: Role) {
           v-model:value="row.status"
           :api="() => roleChangeStatus(row)"
           :disabled="
-            row.roleId === 1 ||
+            row.id === 1 ||
             row.roleKey === 'admin' ||
             !hasAccessByCodes(['system:role:edit'])
           "
