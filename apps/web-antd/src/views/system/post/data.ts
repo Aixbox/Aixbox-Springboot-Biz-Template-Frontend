@@ -77,8 +77,8 @@ export const drawerSchema: FormSchemaGetter = () => [
       show: () => false,
       triggerFields: [''],
     },
-    fieldName: 'postId',
-    label: 'postId',
+    fieldName: 'id',
+    label: 'id',
   },
   {
     component: 'TreeSelect',

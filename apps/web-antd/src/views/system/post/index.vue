@@ -72,7 +72,7 @@ const gridOptions: VxeGridProps = {
     },
   },
   rowConfig: {
-    keyField: 'postId',
+    keyField: 'id',
   },
   id: 'system-post-index',
 };
