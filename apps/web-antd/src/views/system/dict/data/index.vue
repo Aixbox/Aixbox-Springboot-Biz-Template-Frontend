@@ -54,7 +54,7 @@ const gridOptions: VxeGridProps = {
     ajax: {
       query: async ({ page }, formValues = {}) => {
         const params: PageParam = {
-          pageNum: page.currentPage,
+          pageNo: page.currentPage,
           pageSize: page.pageSize,
           ...formValues,
         };

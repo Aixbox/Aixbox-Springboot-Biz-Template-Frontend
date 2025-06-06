@@ -52,6 +52,14 @@ export const columns: VxeGridProps['columns'] = [
     field: 'status',
     slots: {
       default: ({ row }) => {
+        if (typeof row.status === 'string' && row.status.includes(',')) {
+          return row.status
+            .split(',')
+            .map((item: string) =>
+              renderDict(item.trim(), DictEnum.SYS_NORMAL_DISABLE),
+            )
+            .join(', ');
+        }
         return renderDict(row.status, DictEnum.SYS_NORMAL_DISABLE);
       },
     },

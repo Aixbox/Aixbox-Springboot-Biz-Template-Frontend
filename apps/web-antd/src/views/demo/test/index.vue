@@ -18,8 +18,8 @@ import {
 } from '#/api/system/config';
 import { commonDownloadExcel } from '#/utils/file/download';
 
-import configModal from './config-modal.vue';
 import { columns, querySchema } from './data';
+import configModal from './test-modal.vue';
 
 const formOptions: VbenFormProps = {
   commonConfig: {

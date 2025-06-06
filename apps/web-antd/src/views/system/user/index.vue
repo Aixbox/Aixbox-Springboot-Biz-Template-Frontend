@@ -106,7 +106,7 @@ const gridOptions: VxeGridProps = {
         }
 
         return await userList({
-          pageNum: page.currentPage,
+          pageNo: page.currentPage,
           pageSize: page.pageSize,
           ...formValues,
         });

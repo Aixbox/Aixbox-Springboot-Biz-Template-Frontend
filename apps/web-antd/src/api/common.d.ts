@@ -20,7 +20,7 @@ export interface PageResult<T = any> {
  * {isAsc:"desc",orderByColumn:"id,createTime"} order by id desc,create_time desc
  * {isAsc:"asc,desc",orderByColumn:"id,createTime"} order by id asc,create_time desc
  *
- * @param pageNum 当前页
+ * @param pageNo 当前页
  * @param pageSize 每页大小
  */
 export interface PageParam {

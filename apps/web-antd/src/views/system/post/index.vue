@@ -64,7 +64,7 @@ const gridOptions: VxeGridProps = {
         }
 
         return await postList({
-          pageNum: page.currentPage,
+          pageNo: page.currentPage,
           pageSize: page.pageSize,
           ...formValues,
         });
