@@ -6,12 +6,14 @@ import { useDictStore } from '#/store/dict';
  * @param dictName 字典名称
  * @param dataGetter 获取字典数据的函数
  * @param formatNumber 是否格式化字典value为number类型
+ * @param formatBoolean 是否格式化字典value为boolean类型
  * @returns 数据
  */
 function fetchAndCacheDictData<T>(
   dictName: string,
   dataGetter: () => T[],
   formatNumber = false,
+  formatBoolean = false,
 ): T[] {
   const { dictRequestCache, setDictInfo } = useDictStore();
   // 有调用方决定如何获取数据
@@ -25,7 +27,7 @@ function fetchAndCacheDictData<T>(
         .then((resp) => {
           // 缓存到store 这样就不用重复获取了
           // 内部处理了push的逻辑 这里不用push
-          setDictInfo(dictName, resp, formatNumber);
+          setDictInfo(dictName, resp, formatNumber, formatBoolean);
         })
         .catch(() => {
           // 401时 移除字典缓存 下次登录重新获取
@@ -50,13 +52,19 @@ function fetchAndCacheDictData<T>(
  * 一般是Select, Radio, Checkbox等组件使用
  * @param dictName 字典名称
  * @param formatNumber 是否格式化字典value为number类型
+ * @param formatBoolean 是否格式化字典value为boolean类型
  * @returns Options数组
  */
-export function getDictOptions(dictName: string, formatNumber = false) {
+export function getDictOptions(
+  dictName: string,
+  formatNumber = false,
+  formatBoolean = false,
+) {
   const { getDictOptions } = useDictStore();
   return fetchAndCacheDictData(
     dictName,
     () => getDictOptions(dictName),
     formatNumber,
+    formatBoolean,
   );
 }

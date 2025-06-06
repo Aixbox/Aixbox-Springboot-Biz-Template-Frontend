@@ -107,10 +107,9 @@ const iconMap = [
 function findIcon(path: string) {
   const defaultFileIcon = DefaultFileIcon;
   const defaultFolderIcon = FolderIcon;
-  if (path.endsWith('.vm')) {
-    const realPath = path.slice(0, -3);
+  if (path.includes('.')) {
     // 是否为指定拓展名
-    const icon = iconMap.find((item) => realPath.endsWith(item.key));
+    const icon = iconMap.find((item) => path.endsWith(item.key));
     if (icon) {
       return icon.value;
     }

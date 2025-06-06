@@ -7,6 +7,7 @@ import { requestClient } from '#/api/request';
 
 enum Api {
   add = '/system/dict/type/add',
+  dictOptionSelectList = '/system/dict/type/optionselect',
   dictTypeExport = '/system/dict/type/export',
   dictTypeList = '/system/dict/type/list',
   dictTypeRefreshCache = '/system/dict/type/refreshCache',
@@ -68,4 +69,12 @@ export function dictTypeRemove(dictIds: IDS) {
  */
 export function dictTypeInfo(dictId: ID) {
   return requestClient.get<DictType>(`${Api.root}/${dictId}`);
+}
+
+/**
+ * 下拉框  返回值和list一样
+ * @returns options
+ */
+export function dictOptionSelectList() {
+  return requestClient.get<DictType[]>(Api.dictOptionSelectList);
 }

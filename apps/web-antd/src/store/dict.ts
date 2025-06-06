@@ -12,24 +12,36 @@ import { defineStore } from 'pinia';
 export interface DictOption extends DictData {
   disabled?: boolean;
   label: string;
-  value: number | string;
+  value: boolean | number | string;
 }
 
 /**
  * 将字典数据转为Options
  * @param data 字典数据
  * @param formatNumber 是否需要将value格式化为number类型
+ * @param formatBoolean 是否需要将value格式化为boolean类型
  * @returns options
  */
 export function dictToOptions(
   data: DictData[],
   formatNumber = false,
+  formatBoolean = false,
 ): DictOption[] {
-  return data.map((item) => ({
-    ...item,
-    label: item.dictLabel,
-    value: formatNumber ? Number(item.dictValue) : item.dictValue,
-  }));
+  return data.map((item) => {
+    let value: boolean | number | string = item.dictValue;
+
+    if (formatBoolean) {
+      value = ['1', 'true', 'yes'].includes(item.dictValue.toLowerCase());
+    } else if (formatNumber) {
+      value = Number(item.dictValue);
+    }
+
+    return {
+      ...item,
+      label: item.dictLabel,
+      value,
+    };
+  });
 }
 
 export const useDictStore = defineStore('app-dict', () => {
@@ -79,6 +91,7 @@ export const useDictStore = defineStore('app-dict', () => {
     dictName: string,
     dictValue: DictData[],
     formatNumber = false,
+    formatBoolean = false,
   ) {
     if (
       dictOptionsMap.has(dictName) &&
@@ -86,9 +99,12 @@ export const useDictStore = defineStore('app-dict', () => {
     ) {
       dictOptionsMap
         .get(dictName)
-        ?.push(...dictToOptions(dictValue, formatNumber));
+        ?.push(...dictToOptions(dictValue, formatNumber, formatBoolean));
     } else {
-      dictOptionsMap.set(dictName, dictToOptions(dictValue, formatNumber));
+      dictOptionsMap.set(
+        dictName,
+        dictToOptions(dictValue, formatNumber, formatBoolean),
+      );
     }
   }
 

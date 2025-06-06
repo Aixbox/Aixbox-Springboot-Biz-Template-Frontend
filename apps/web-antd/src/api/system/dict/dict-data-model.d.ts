@@ -14,4 +14,5 @@ export interface DictData {
   status: string;
   updateBy?: any;
   updateTime?: any;
+  value: boolean | number | string;
 }

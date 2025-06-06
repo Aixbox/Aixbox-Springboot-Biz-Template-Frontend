@@ -22,7 +22,7 @@ export const querySchema: FormSchemaGetter = () => [
     component: 'Select',
     componentProps: {
       getPopupContainer,
-      options: getDictOptions(DictEnum.SYS_YES_NO),
+      options: getDictOptions(DictEnum.SYS_YES_NO, false, true),
     },
     fieldName: 'configType',
     label: '系统内置',
@@ -54,7 +54,7 @@ export const columns: VxeGridProps['columns'] = [
     width: 120,
     slots: {
       default: ({ row }) => {
-        return renderDict(row.configType, DictEnum.SYS_YES_NO);
+        return renderDict(row.configType, DictEnum.SYS_YES_NO, true);
       },
     },
   },
@@ -112,7 +112,7 @@ export const modalSchema: FormSchemaGetter = () => [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: getDictOptions(DictEnum.SYS_YES_NO),
+      options: getDictOptions(DictEnum.),
       optionType: 'button',
     },
     defaultValue: 'N',

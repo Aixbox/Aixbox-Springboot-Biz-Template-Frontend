@@ -4,7 +4,10 @@ import { DictTag } from '#/components/dict';
 
 import { getDictOptions } from './dict';
 
-export function renderDictTag(value: number | string, dicts: DictData[]) {
+export function renderDictTag(
+  value: boolean | number | string,
+  dicts: DictData[],
+) {
   return <DictTag dicts={dicts} value={value}></DictTag>;
 }
 
@@ -12,10 +15,16 @@ export function renderDictTag(value: number | string, dicts: DictData[]) {
  * 显示字典标签 一般是table使用
  * @param value 值
  * @param dictName dictName
+ * @param formatBoolean 是否格式化字典value为boolean类型
  * @returns tag
  */
-export function renderDict(value: number | string, dictName: string) {
-  const dictInfo = getDictOptions(dictName);
+export function renderDict(
+  value: boolean | number | string,
+  dictName: string,
+  formatBoolean = false,
+) {
+  const dictInfo = getDictOptions(dictName, false, formatBoolean);
+  console.log('转换后的值', dictInfo);
   return renderDictTag(value, dictInfo);
 }
 

@@ -2,7 +2,7 @@
 import type { VbenFormProps } from '@vben/common-ui';
 
 import type { VxeGridProps } from '#/adapter/vxe-table';
-import type { SysConfig } from '#/api/system/config/model';
+import type { DemoTest } from '#/api/demo/test/model';
 
 import { Page, useVbenModal } from '@vben/common-ui';
 import { getVxePopupContainer } from '@vben/utils';
@@ -10,16 +10,11 @@ import { getVxePopupContainer } from '@vben/utils';
 import { Modal, Popconfirm, Space } from 'ant-design-vue';
 
 import { useVbenVxeGrid, vxeCheckboxChecked } from '#/adapter/vxe-table';
-import {
-  configExport,
-  configList,
-  configRefreshCache,
-  configRemove,
-} from '#/api/system/config';
+import { testExport, testList, testRemove } from '#/api/demo/test';
 import { commonDownloadExcel } from '#/utils/file/download';
 
 import { columns, querySchema } from './data';
-import configModal from './test-modal.vue';
+import testModal from './test-modal.vue';
 
 const formOptions: VbenFormProps = {
   commonConfig: {
@@ -54,7 +49,7 @@ const gridOptions: VxeGridProps = {
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues = {}) => {
-        return await configList({
+        return await testList({
           pageNo: page.currentPage,
           pageSize: page.pageSize,
           ...formValues,
@@ -63,17 +58,17 @@ const gridOptions: VxeGridProps = {
     },
   },
   rowConfig: {
-    keyField: 'configId',
+    keyField: 'id',
   },
-  id: 'system-config-index',
+  id: 'demo-test-index',
 };
 
 const [BasicTable, tableApi] = useVbenVxeGrid({
   formOptions,
   gridOptions,
 });
-const [ConfigModal, modalApi] = useVbenModal({
-  connectedComponent: configModal,
+const [TestModal, modalApi] = useVbenModal({
+  connectedComponent: testModal,
 });
 
 function handleAdd() {
@@ -81,39 +76,34 @@ function handleAdd() {
   modalApi.open();
 }
 
-async function handleEdit(record: SysConfig) {
+async function handleEdit(record: DemoTest) {
   modalApi.setData({ id: record.id });
   modalApi.open();
 }
 
-async function handleDelete(row: SysConfig) {
-  await configRemove([row.id]);
+async function handleDelete(row: DemoTest) {
+  await testRemove([row.id]);
   await tableApi.query();
 }
 
 function handleMultiDelete() {
   const rows = tableApi.grid.getCheckboxRecords();
-  const ids = rows.map((row: SysConfig) => row.id);
+  const ids = rows.map((row: DemoTest) => row.id);
   Modal.confirm({
     title: '提示',
     okType: 'danger',
     content: `确认删除选中的${ids.length}条记录吗？`,
     onOk: async () => {
-      await configRemove(ids);
+      await testRemove(ids);
       await tableApi.query();
     },
   });
 }
 
 function handleDownloadExcel() {
-  commonDownloadExcel(configExport, '参数配置', tableApi.formApi.form.values, {
+  commonDownloadExcel(testExport, '测试', tableApi.formApi.form.values, {
     fieldMappingTime: formOptions.fieldMappingTime,
   });
-}
-
-async function handleRefreshCache() {
-  await configRefreshCache();
-  await tableApi.query();
 }
 </script>
 
@@ -122,9 +112,8 @@ async function handleRefreshCache() {
     <BasicTable table-title="参数列表">
       <template #toolbar-tools>
         <Space>
-          <a-button @click="handleRefreshCache"> 刷新缓存 </a-button>
           <a-button
-            v-access:code="['system:config:export']"
+            v-access:code="['demo:test:export']"
             @click="handleDownloadExcel"
           >
             {{ $t('pages.common.export') }}
@@ -133,14 +122,14 @@ async function handleRefreshCache() {
             :disabled="!vxeCheckboxChecked(tableApi)"
             danger
             type="primary"
-            v-access:code="['system:config:remove']"
+            v-access:code="['demo:test:remove']"
             @click="handleMultiDelete"
           >
             {{ $t('pages.common.delete') }}
           </a-button>
           <a-button
             type="primary"
-            v-access:code="['system:config:add']"
+            v-access:code="['demo:test:add']"
             @click="handleAdd"
           >
             {{ $t('pages.common.add') }}
@@ -150,7 +139,7 @@ async function handleRefreshCache() {
       <template #action="{ row }">
         <Space>
           <ghost-button
-            v-access:code="['system:config:edit']"
+            v-access:code="['demo:test:edit']"
             @click.stop="handleEdit(row)"
           >
             {{ $t('pages.common.edit') }}
@@ -163,7 +152,7 @@ async function handleRefreshCache() {
           >
             <ghost-button
               danger
-              v-access:code="['system:config:remove']"
+              v-access:code="['demo:test:remove']"
               @click.stop=""
             >
               {{ $t('pages.common.delete') }}
@@ -172,6 +161,6 @@ async function handleRefreshCache() {
         </Space>
       </template>
     </BasicTable>
-    <ConfigModal @reload="tableApi.query()" />
+    <TestModal @reload="tableApi.query()" />
   </Page>
 </template>

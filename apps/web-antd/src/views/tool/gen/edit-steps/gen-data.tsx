@@ -8,13 +8,14 @@ import { getPopupContainer } from '@vben/utils';
 
 import { Checkbox, Input, Select } from 'ant-design-vue';
 
+import { dictOptionSelectList } from '#/api/system/dict/dict-type';
+
 const JavaTypes: string[] = [
   'Long',
   'String',
   'Integer',
   'Double',
   'BigDecimal',
-  'Date',
   'Boolean',
   'LocalDate',
   'LocalDateTime',
@@ -56,6 +57,21 @@ const componentsOptions = [
 const dictOptions = reactive<{ label: string; value: string }[]>([
   { label: '未设置', value: '' },
 ]);
+/**
+ * 在这里初始化字典下拉框
+ */
+(async function init() {
+  const ret = await dictOptionSelectList();
+
+  ret.forEach((dict) => {
+    const option = {
+      label: `${dict.dictName} | ${dict.dictType}`,
+      value: dict.dictType,
+    };
+    dictOptions.push(option);
+  });
+})();
+
 export const validRules: VxeGridProps['editRules'] = {
   columnComment: [{ required: true, message: '请输入' }],
   javaField: [{ required: true, message: '请输入' }],
