@@ -21,10 +21,10 @@ export function renderDictTag(
 export function renderDict(
   value: boolean | number | string,
   dictName: string,
+  formatNumber = false,
   formatBoolean = false,
 ) {
-  const dictInfo = getDictOptions(dictName, false, formatBoolean);
-  console.log('转换后的值', dictInfo);
+  const dictInfo = getDictOptions(dictName, formatNumber, formatBoolean);
   return renderDictTag(value, dictInfo);
 }
 

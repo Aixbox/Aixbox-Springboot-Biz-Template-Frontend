@@ -19,6 +19,7 @@ const title = computed(() => {
 });
 
 const [BasicForm, formApi] = useVbenForm({
+  arrayToStringFields: ['checkboxType'],
   commonConfig: {
     labelWidth: 80,
   },
@@ -64,7 +65,7 @@ async function handleConfirm() {
     if (!valid) {
       return;
     }
-    const data = cloneDeep(await formApi.getValues());
+    const data = cloneDeep(await formApi.submitForm());
     await (isUpdate.value ? testUpdate(data) : testAdd(data));
     resetInitialized();
     emit('reload');

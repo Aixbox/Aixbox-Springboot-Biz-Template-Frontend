@@ -7,9 +7,9 @@ import { requestClient } from '#/api/request';
 
 enum Api {
   add = '/demo/test/add',
-  root = '/demo/test',
   testExport = '/demo/test/export',
   testList = '/demo/test/page',
+  root = '/demo/test',
   update = '/demo/test/update',
 }
 

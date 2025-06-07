@@ -26,13 +26,7 @@ const formOptions: VbenFormProps = {
   schema: querySchema(),
   wrapperClass: 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
   // 日期选择格式化
-  fieldMappingTime: [
-    [
-      'createTime',
-      ['createTime[0]', 'createTime[1]'],
-      ['YYYY-MM-DD', 'YYYY-MM-DD'],
-    ],
-  ],
+  fieldMappingTime: [],
 };
 
 const gridOptions: VxeGridProps = {

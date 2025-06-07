@@ -5,18 +5,18 @@ import { DictEnum } from '@vben/constants';
 import { getPopupContainer } from '@vben/utils';
 
 import { getDictOptions } from '#/utils/dict';
-import { renderDict } from '#/utils/render';
+import { renderDict, renderDictTags } from '#/utils/render';
 
 export const querySchema: FormSchemaGetter = () => [
   {
     component: 'Input',
-    fieldName: 'name',
-    label: '名字',
+    fieldName: 'id',
+    label: 'id',
   },
   {
-    component: 'RangePicker',
-    fieldName: 'createTime',
-    label: '创建时间',
+    component: 'Input',
+    fieldName: 'inputType',
+    label: '名字',
   },
   {
     component: 'Select',
@@ -27,13 +27,29 @@ export const querySchema: FormSchemaGetter = () => [
     fieldName: 'sex',
     label: '性别',
   },
+
+  {
+    component: 'RangePicker',
+    fieldName: 'createTime',
+    label: '创建时间',
+  },
+  {
+    component: 'Input',
+    fieldName: 'integerType',
+    label: 'int类型',
+  },
+  {
+    component: 'Input',
+    fieldName: 'textareaType',
+    label: '文本域类型',
+  },
   {
     component: 'Select',
     componentProps: {
       getPopupContainer,
       options: getDictOptions(DictEnum.SYS_YES_NO, false, true),
     },
-    fieldName: 'isOrNot',
+    fieldName: 'radioIsOrNot',
     label: '是否',
   },
 ];
@@ -46,11 +62,7 @@ export const columns: VxeGridProps['columns'] = [
   },
   {
     title: '名字',
-    field: 'name',
-  },
-  {
-    title: '创建时间',
-    field: 'createTime',
+    field: 'inputType',
   },
   {
     title: '性别',
@@ -64,12 +76,49 @@ export const columns: VxeGridProps['columns'] = [
   },
 
   {
+    title: '创建时间',
+    field: 'createTime',
+  },
+  {
+    title: 'int类型',
+    field: 'integerType',
+  },
+  {
+    title: '文本域类型',
+    field: 'textareaType',
+  },
+  // todo 图片类型
+  {
     title: '是否',
-    field: 'isOrNot',
+    field: 'radioIsOrNot',
     width: 120,
     slots: {
       default: ({ row }) => {
-        return renderDict(row.isOrNot, DictEnum.SYS_YES_NO, true);
+        return renderDict(row.radioIsOrNot, DictEnum.SYS_YES_NO, false, true);
+      },
+    },
+  },
+
+  {
+    title: '复选框类型',
+    field: 'checkboxType',
+    width: 120,
+    slots: {
+      default: ({ row }) => {
+        if (
+          typeof row.checkboxType === 'string' &&
+          row.checkboxType.includes(',')
+        ) {
+          const values = row.checkboxType
+            .split(',')
+            .map((item: any) => item.trim());
+          return renderDictTags(
+            values,
+            getDictOptions(DictEnum.SYS_DEVICE_TYPE),
+            false,
+          );
+        }
+        return row.checkboxType || '';
       },
     },
   },
@@ -78,8 +127,22 @@ export const columns: VxeGridProps['columns'] = [
 export const modalSchema: FormSchemaGetter = () => [
   {
     component: 'Input',
-    fieldName: 'name',
+    dependencies: {
+      show: () => false,
+      triggerFields: [''],
+    },
+    fieldName: 'id',
+    label: 'id',
+  },
+  {
+    component: 'Textarea',
+    formItemClass: 'items-start',
+    fieldName: 'inputType',
     label: '名字',
+    componentProps: {
+      autoSize: true,
+    },
+    rules: 'required',
   },
   {
     component: 'Select',
@@ -91,12 +154,40 @@ export const modalSchema: FormSchemaGetter = () => [
     label: '性别',
   },
   {
-    component: 'Select',
+    component: 'Input',
+    fieldName: 'integerType',
+    label: 'int类型',
+  },
+  {
+    component: 'Textarea',
+    formItemClass: 'items-start',
+    fieldName: 'textareaType',
+    label: '文本域类型',
     componentProps: {
-      getPopupContainer,
-      options: getDictOptions(DictEnum.SYS_YES_NO, false, true),
+      autoSize: true,
     },
-    fieldName: 'isOrNot',
+  },
+  {
+    component: 'Upload',
+    fieldName: 'selectType',
+    label: '选择类型',
+  },
+  {
+    component: 'RadioGroup',
+    componentProps: {
+      buttonStyle: 'solid',
+      options: getDictOptions(DictEnum.SYS_YES_NO),
+      optionType: 'button',
+    },
+    fieldName: 'radioIsOrNot',
     label: '是否',
+  },
+  {
+    component: 'CheckboxGroup',
+    componentProps: {
+      options: getDictOptions(DictEnum.SYS_DEVICE_TYPE),
+    },
+    fieldName: 'checkboxType',
+    label: '复选框类型',
   },
 ];
