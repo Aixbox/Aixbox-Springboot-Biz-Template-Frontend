@@ -29,8 +29,8 @@ const formOptions: VbenFormProps = {
   fieldMappingTime: [
     [
       'createTime',
-      ['params[beginTime]', 'params[endTime]'],
-      ['YYYY-MM-DD 00:00:00', 'YYYY-MM-DD 23:59:59'],
+      ['createTime[0]', 'createTime[1]'],
+      ['YYYY-MM-DD', 'YYYY-MM-DD'],
     ],
   ],
 };
