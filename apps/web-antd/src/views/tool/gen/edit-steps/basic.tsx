@@ -2,8 +2,6 @@ import type { FormSchemaGetter } from '#/adapter/form';
 
 import { getPopupContainer } from '@vben/utils';
 
-import { z } from '#/adapter/form';
-
 export const formSchema: FormSchemaGetter = () => [
   {
     component: 'Divider',
@@ -156,52 +154,6 @@ export const formSchema: FormSchemaGetter = () => [
     defaultValue: 'modal',
     fieldName: 'popupComponent',
     label: '弹窗组件类型',
-  },
-  {
-    component: 'RadioGroup',
-    componentProps: {
-      buttonStyle: 'solid',
-      options: [
-        { label: 'useVbenForm', value: 'useForm' },
-        { label: 'antd原生表单', value: 'native' },
-      ],
-      optionType: 'button',
-    },
-    help: '自定义功能, 需要后端支持\n复杂(布局, 联动等)表单建议用antd原生表单',
-    defaultValue: 'useForm',
-    fieldName: 'formComponent',
-    label: '生成表单类型',
-  },
-  {
-    component: 'RadioGroup',
-    componentProps: {
-      buttonStyle: 'solid',
-      options: [
-        { label: 'zip压缩包', value: '0' },
-        { label: '自定义路径', value: '1' },
-      ],
-      optionType: 'button',
-    },
-    defaultValue: '0',
-    fieldName: 'genType',
-    help: '默认为zip压缩包下载, 也可以自定义生成路径',
-    label: '生成代码方式',
-  },
-  {
-    component: 'Input',
-    defaultValue: '/',
-    dependencies: {
-      show: (model) => model.genType === '1',
-      triggerFields: ['genType'],
-    },
-    fieldName: 'genPath',
-    help: '输入绝对路径, 不支持"./"相对路径',
-    label: '代码生成路径',
-    rules: z
-      .string()
-      .regex(/^(?:[a-z]:)?(?:\/|(?:\\|\/)[^\\/:*?"<>|\r\n]+)*(?:\\|\/)?$/i, {
-        message: '请输入合法的路径',
-      }),
   },
   {
     component: 'Textarea',

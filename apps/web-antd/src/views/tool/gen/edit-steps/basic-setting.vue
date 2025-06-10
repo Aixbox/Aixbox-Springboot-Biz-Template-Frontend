@@ -88,11 +88,11 @@ async function initMenuSelect() {
   list.forEach((item) => {
     item.menuName = $t(item.menuName);
   });
-  const tree = listToTree(list, { id: 'menuId', pid: 'parentId' });
+  const tree = listToTree(list, { id: 'id', pid: 'parentId' });
   const treeData = [
     {
       fullName: $t('menu.root'),
-      menuId: 0,
+      id: 0,
       menuName: $t('menu.root'),
       children: tree,
     },
@@ -104,7 +104,7 @@ async function initMenuSelect() {
       componentProps: {
         fieldNames: {
           label: 'menuName',
-          value: 'menuId',
+          value: 'id',
         },
         // 设置弹窗滚动高度 默认256
         listHeight: 300,

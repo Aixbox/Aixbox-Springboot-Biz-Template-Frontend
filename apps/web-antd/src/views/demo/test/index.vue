@@ -4,7 +4,7 @@ import type { VbenFormProps } from '@vben/common-ui';
 import type { VxeGridProps } from '#/adapter/vxe-table';
 import type { DemoTest } from '#/api/demo/test/model';
 
-import { Page, useVbenModal } from '@vben/common-ui';
+import { Page, useVbenDrawer } from '@vben/common-ui';
 import { getVxePopupContainer } from '@vben/utils';
 
 import { Modal, Popconfirm, Space } from 'ant-design-vue';
@@ -14,9 +14,10 @@ import { testExport, testList, testRemove } from '#/api/demo/test';
 import { commonDownloadExcel } from '#/utils/file/download';
 
 import { columns, querySchema } from './data';
-import testModal from './test-modal.vue';
+import testDrawer from './test-drawer.vue';
 
 const formOptions: VbenFormProps = {
+  arrayToStringFields: ['checkboxType'],
   commonConfig: {
     labelWidth: 80,
     componentProps: {
@@ -61,18 +62,19 @@ const [BasicTable, tableApi] = useVbenVxeGrid({
   formOptions,
   gridOptions,
 });
-const [TestModal, modalApi] = useVbenModal({
-  connectedComponent: testModal,
+
+const [TestDrawer, drawerApi] = useVbenDrawer({
+  connectedComponent: testDrawer,
 });
 
 function handleAdd() {
-  modalApi.setData({});
-  modalApi.open();
+  drawerApi.setData({});
+  drawerApi.open();
 }
 
 async function handleEdit(record: DemoTest) {
-  modalApi.setData({ id: record.id });
-  modalApi.open();
+  drawerApi.setData({ id: record.id });
+  drawerApi.open();
 }
 
 async function handleDelete(row: DemoTest) {
@@ -155,6 +157,6 @@ function handleDownloadExcel() {
         </Space>
       </template>
     </BasicTable>
-    <TestModal @reload="tableApi.query()" />
+    <TestDrawer @reload="tableApi.query()" />
   </Page>
 </template>

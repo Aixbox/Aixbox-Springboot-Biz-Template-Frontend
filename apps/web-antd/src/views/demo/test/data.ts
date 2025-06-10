@@ -22,7 +22,7 @@ export const querySchema: FormSchemaGetter = () => [
     component: 'Select',
     componentProps: {
       getPopupContainer,
-      options: getDictOptions(DictEnum.SYS_USER_SEX),
+      options: getDictOptions(DictEnum.SYS_USER_SEX, true),
     },
     fieldName: 'sex',
     label: '性别',
@@ -70,7 +70,7 @@ export const columns: VxeGridProps['columns'] = [
     width: 120,
     slots: {
       default: ({ row }) => {
-        return renderDict(row.sex, DictEnum.SYS_USER_SEX);
+        return renderDict(row.sex, DictEnum.SYS_USER_SEX, true);
       },
     },
   },
@@ -105,10 +105,7 @@ export const columns: VxeGridProps['columns'] = [
     width: 120,
     slots: {
       default: ({ row }) => {
-        if (
-          typeof row.checkboxType === 'string' &&
-          row.checkboxType.includes(',')
-        ) {
+        if (typeof row.checkboxType === 'string') {
           const values = row.checkboxType
             .split(',')
             .map((item: any) => item.trim());
@@ -122,9 +119,85 @@ export const columns: VxeGridProps['columns'] = [
       },
     },
   },
+
+  {
+    title: '操作',
+    field: 'action',
+    fixed: 'right',
+    width: 150,
+    slots: { default: 'action' },
+  },
 ];
 
 export const modalSchema: FormSchemaGetter = () => [
+  {
+    component: 'Input',
+    dependencies: {
+      show: () => false,
+      triggerFields: [''],
+    },
+    fieldName: 'id',
+    label: 'id',
+  },
+  {
+    component: 'Textarea',
+    formItemClass: 'items-start',
+    fieldName: 'inputType',
+    label: '名字',
+    componentProps: {
+      autoSize: true,
+    },
+    rules: 'required',
+  },
+  {
+    component: 'Select',
+    componentProps: {
+      getPopupContainer,
+      options: getDictOptions(DictEnum.SYS_USER_SEX),
+    },
+    fieldName: 'sex',
+    label: '性别',
+  },
+  {
+    component: 'Input',
+    fieldName: 'integerType',
+    label: 'int类型',
+  },
+  {
+    component: 'Textarea',
+    formItemClass: 'items-start',
+    fieldName: 'textareaType',
+    label: '文本域类型',
+    componentProps: {
+      autoSize: true,
+    },
+  },
+  {
+    component: 'Upload',
+    fieldName: 'selectType',
+    label: '选择类型',
+  },
+  {
+    component: 'RadioGroup',
+    componentProps: {
+      buttonStyle: 'solid',
+      options: getDictOptions(DictEnum.SYS_YES_NO),
+      optionType: 'button',
+    },
+    fieldName: 'radioIsOrNot',
+    label: '是否',
+  },
+  {
+    component: 'CheckboxGroup',
+    componentProps: {
+      options: getDictOptions(DictEnum.SYS_DEVICE_TYPE),
+    },
+    fieldName: 'checkboxType',
+    label: '复选框类型',
+  },
+];
+
+export const drawerSchema: FormSchemaGetter = () => [
   {
     component: 'Input',
     dependencies: {

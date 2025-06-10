@@ -61,10 +61,12 @@ export function getDictOptions(
   formatBoolean = false,
 ) {
   const { getDictOptions } = useDictStore();
-  return fetchAndCacheDictData(
+  const data = fetchAndCacheDictData(
     dictName,
     () => getDictOptions(dictName),
     formatNumber,
     formatBoolean,
   );
+  console.log('字典名称', dictName, data);
+  return data;
 }

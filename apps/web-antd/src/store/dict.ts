@@ -35,7 +35,7 @@ export function dictToOptions(
     } else if (formatNumber) {
       value = Number(item.dictValue);
     }
-
+    console.log('转换的值', 'formatNumber', formatNumber, value, data);
     return {
       ...item,
       label: item.dictLabel,

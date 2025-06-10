@@ -112,7 +112,7 @@ export const modalSchema: FormSchemaGetter = () => [
     component: 'RadioGroup',
     componentProps: {
       buttonStyle: 'solid',
-      options: getDictOptions(DictEnum.),
+      options: getDictOptions(DictEnum.SYS_YES_NO, false, true),
       optionType: 'button',
     },
     defaultValue: 'N',
