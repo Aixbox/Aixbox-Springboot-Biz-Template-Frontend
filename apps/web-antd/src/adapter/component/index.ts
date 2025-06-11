@@ -21,6 +21,14 @@ import { $t } from '@vben/locales';
 
 import { notification } from 'ant-design-vue';
 
+const FileUpload = defineAsyncComponent(() =>
+  import('#/components/upload').then((res) => res.FileUpload),
+);
+
+const ImageUpload = defineAsyncComponent(() =>
+  import('#/components/upload').then((res) => res.ImageUpload),
+);
+
 const AutoComplete = defineAsyncComponent(
   () => import('ant-design-vue/es/auto-complete'),
 );
@@ -112,7 +120,9 @@ export type ComponentType =
   | 'DatePicker'
   | 'DefaultButton'
   | 'Divider'
+  | 'FileUpload'
   | 'IconPicker'
+  | 'ImageUpload'
   | 'Input'
   | 'InputNumber'
   | 'InputPassword'
@@ -197,6 +207,8 @@ async function initComponentAdapter() {
     TimePicker,
     TreeSelect: withDefaultPlaceholder(TreeSelect, 'select'),
     Upload,
+    ImageUpload,
+    FileUpload,
   };
 
   // 将组件注册到全局共享状态中
