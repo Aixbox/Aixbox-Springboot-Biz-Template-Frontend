@@ -61,7 +61,10 @@ updateLocale('en-US');
 **src/locales/langs/zh-CN/\*.json**
 
 ````ts
-```json
+
+```
+
+json
 {
   "about": {
     "desc": "Vben Admin 是一个现代的管理模版。"
@@ -72,7 +75,10 @@ updateLocale('en-US');
 **src/locales/langs/en-US.ts**
 
 ````ts
-```json
+
+```
+
+json
 {
   "about": {
     "desc": "Vben Admin is a modern management template."
@@ -130,7 +136,6 @@ const items = computed(() => [{ title: $t('about.desc') }]);
     },
   ];
   ```
-
 - 在 `packages/locales/typing.ts`内，新增 Typescript 类型：
 
   ```ts

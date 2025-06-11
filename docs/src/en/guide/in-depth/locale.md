@@ -61,7 +61,10 @@ To add new translation texts, simply find `src/locales/langs/` in the correspond
 **src/locales/langs/zh-CN/\*.json**
 
 ````ts
-```json
+
+```
+
+json
 {
   "about": {
     "desc": "Vben Admin 是一个现代的管理模版。"
@@ -72,7 +75,10 @@ To add new translation texts, simply find `src/locales/langs/` in the correspond
 **src/locales/langs/en-US.ts**
 
 ````ts
-```json
+
+```
+
+json
 {
   "about": {
     "desc": "Vben Admin is a modern management template."
@@ -130,7 +136,6 @@ If you need to add a new language pack, follow these steps:
     },
   ];
   ```
-
 - In `packages/locales/typing.ts`, add a new TypeScript type:
 
   ```ts
