@@ -7,7 +7,7 @@ import { requestClient } from '#/api/request';
 enum Api {
   add = '/resource/oss/config/add',
   ossConfigChangeStatus = '/resource/oss/config/changeStatus',
-  ossConfigList = '/resource/oss/config/list',
+  ossConfigList = '/resource/oss/config/page',
   root = '/resource/oss/config',
   update = '/resource/oss/config/update',
 }
@@ -40,8 +40,9 @@ export function ossConfigRemove(ossConfigIds: IDS) {
 // 更改OSS配置的状态
 export function ossConfigChangeStatus(data: any) {
   const requestData = {
-    ossConfigId: data.ossConfigId,
+    id: data.id,
     status: data.status,
+    configKey: data.configKey,
   };
   return requestClient.putWithMsg(Api.ossConfigChangeStatus, requestData);
 }

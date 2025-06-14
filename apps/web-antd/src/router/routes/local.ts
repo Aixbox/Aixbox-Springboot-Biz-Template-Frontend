@@ -23,18 +23,6 @@ const localRoutes: RouteRecordStringComponent[] = [
     path: '/profile',
   },
   {
-    component: '/system/oss-config/index',
-    meta: {
-      activePath: '/system/oss',
-      icon: 'ant-design:setting-outlined',
-      title: 'oss配置',
-      hideInMenu: true,
-      requireHomeRedirect: true,
-    },
-    name: 'OssConfig',
-    path: '/system/oss-config',
-  },
-  {
     component: '/tool/gen/edit-gen',
     meta: {
       activePath: '/tool/gen',

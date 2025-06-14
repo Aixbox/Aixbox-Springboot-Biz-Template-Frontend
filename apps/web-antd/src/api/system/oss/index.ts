@@ -1,16 +1,17 @@
 import type { AxiosRequestConfig } from '@vben/request';
 
-import type { OssFile } from './model';
+import type { MultipartBo, OssFile } from './model';
 
 import type { ID, IDS, PageParam, PageResult } from '#/api/common';
 
 import { ContentTypeEnum } from '#/api/helper';
-import { requestClient } from '#/api/request';
+import { baseRequestClient, requestClient } from '#/api/request';
 
 enum Api {
+  multipart = '/resource/oss/multipart',
   ossDownload = '/resource/oss/download',
   ossInfo = '/resource/oss/listByIds',
-  ossList = '/resource/oss/list',
+  ossList = '/resource/oss/page',
   ossUpload = '/resource/oss/upload',
   root = '/resource/oss',
 }
@@ -72,4 +73,21 @@ export function ossDownload(
  */
 export function ossRemove(ossIds: IDS) {
   return requestClient.deleteWithMsg<void>(`${Api.root}/${ossIds}`);
+}
+
+/**
+ * 分片上传
+ * @param multipartBo 分片对象文件
+ * @returns void
+ */
+export function multipartUpload(multipartBo: MultipartBo) {
+  return requestClient.post(Api.multipart, multipartBo);
+}
+
+// 上传分片
+export function uploadChunk(privateUrl: string, chunk: Blob | undefined) {
+  return baseRequestClient.put(privateUrl, chunk, {
+    headers: { 'Content-Type': ContentTypeEnum.FORM_DATA },
+    timeout: 30 * 1000,
+  });
 }
