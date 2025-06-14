@@ -42,8 +42,7 @@ const bindProps = computed(() => {
 function toggleTheme(event: MouseEvent) {
   const isAppearanceTransition =
     // @ts-expect-error
-    document.startViewTransition &&
-    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.startViewTransition;
   if (!isAppearanceTransition || !event) {
     isDark.value = !isDark.value;
     return;
@@ -69,7 +68,7 @@ function toggleTheme(event: MouseEvent) {
         clipPath: isDark.value ? [...clipPath].reverse() : clipPath,
       },
       {
-        duration: 450,
+        duration: 400,
         easing: 'ease-in',
         pseudoElement: isDark.value
           ? '::view-transition-old(root)'
