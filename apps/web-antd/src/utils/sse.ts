@@ -1,8 +1,9 @@
-import { getToken } from '@/utils/auth';
-import { ElNotification } from 'element-plus';
-import { useNoticeStore } from '@/store/modules/notice';
-import { useEventSource } from '@vueuse/core';
 import { watch } from 'vue';
+
+import { useAccessStore } from '@vben/stores';
+
+import { useEventSource } from '@vueuse/core';
+import { notification } from 'ant-design-vue';
 
 // 初始化
 export const initSSE = (url: any) => {
@@ -10,15 +11,18 @@ export const initSSE = (url: any) => {
     return;
   }
 
-  url = url + '?Authorization=Bearer ' + getToken() + '&clientid=' + import.meta.env.VITE_APP_CLIENT_ID;
+  const accessStore = useAccessStore();
+  url = `${url}?Authorization=Bearer ${accessStore.accessToken}&clientid=${
+    import.meta.env.VITE_APP_CLIENT_ID
+  }`;
   const { data, error } = useEventSource(url, [], {
     autoReconnect: {
       retries: 10,
       delay: 3000,
       onFailed() {
         console.log('Failed to connect after 10 retries');
-      }
-    }
+      },
+    },
   });
 
   watch(error, () => {
@@ -28,17 +32,11 @@ export const initSSE = (url: any) => {
 
   watch(data, () => {
     if (!data.value) return;
-    useNoticeStore().addNotice({
-      message: data.value,
-      read: false,
-      time: new Date().toLocaleString()
+    notification.success({
+      message: '消息',
+      description: data.value,
     });
-    ElNotification({
-      title: '消息',
-      message: data.value,
-      type: 'success',
-      duration: 3000
-    });
+
     data.value = null;
   });
 };

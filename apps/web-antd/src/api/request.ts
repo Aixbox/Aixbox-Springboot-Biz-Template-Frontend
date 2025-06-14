@@ -85,7 +85,7 @@ function createRequestClient(baseURL: string) {
       const accessStore = useAccessStore();
       // 添加token
       config.headers.Authorization = formatToken(accessStore.accessToken);
-      config.headers.ClientID = clientId;
+      config.headers.ClientID = import.meta.env.VITE_APP_CLIENT_ID;
 
       /**
        * 格式化get/delete参数
