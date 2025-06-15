@@ -7,17 +7,16 @@ import type { DemoTest } from '#/api/demo/test/model';
 import { Page, useVbenDrawer } from '@vben/common-ui';
 import { getVxePopupContainer } from '@vben/utils';
 
-import { Modal, Popconfirm, Space } from 'ant-design-vue';
+import { Image, Modal, Popconfirm, Space, Spin } from 'ant-design-vue';
 
 import { useVbenVxeGrid, vxeCheckboxChecked } from '#/adapter/vxe-table';
 import { testExport, testList, testRemove } from '#/api/demo/test';
 import { commonDownloadExcel } from '#/utils/file/download';
 
-import { columns, querySchema } from './data';
+import { columns, fallbackImageBase64, querySchema } from './data';
 import testDrawer from './test-drawer.vue';
 
 const formOptions: VbenFormProps = {
-  arrayToStringFields: ['checkboxType'],
   commonConfig: {
     labelWidth: 80,
     componentProps: {
@@ -131,6 +130,23 @@ function handleDownloadExcel() {
             {{ $t('pages.common.add') }}
           </a-button>
         </Space>
+      </template>
+      <template #url="{ row }">
+        <!-- placeholder为图片未加载时显示的占位图 -->
+        <!-- fallback为图片加载失败时显示 -->
+        <!-- 需要设置key属性 否则切换翻页会有延迟 -->
+        <Image
+          :key="row.id"
+          :src="row.selectType"
+          height="50px"
+          :fallback="fallbackImageBase64"
+        >
+          <template #placeholder>
+            <div class="flex size-full items-center justify-center">
+              <Spin />
+            </div>
+          </template>
+        </Image>
       </template>
       <template #action="{ row }">
         <Space>

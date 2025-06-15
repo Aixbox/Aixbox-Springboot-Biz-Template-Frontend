@@ -51,7 +51,6 @@ const componentsOptions = [
   { label: '日期控件', value: 'datetime' },
   { label: '图片上传', value: 'imageUpload' },
   { label: '文件上传', value: 'fileUpload' },
-  { label: '富文本', value: 'editor' },
 ];
 
 const dictOptions = reactive<{ label: string; value: string }[]>([

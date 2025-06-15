@@ -19,7 +19,7 @@ const title = computed(() => {
 });
 
 const [BasicForm, formApi] = useVbenForm({
-  arrayToStringFields: ['checkboxType'],
+  arrayToStringFields: [],
   commonConfig: {
     formItemClass: 'col-span-2',
     componentProps: {
@@ -32,44 +32,12 @@ const [BasicForm, formApi] = useVbenForm({
   wrapperClass: 'grid-cols-2 gap-x-4',
 });
 
-function setupForm(update: boolean) {
-  formApi.updateSchema([
-    {
-      dependencies: {
-        show: () => update,
-        triggerFields: [''],
-      },
-      fieldName: 'clientId',
-    },
-    {
-      componentProps: {
-        disabled: update,
-      },
-      fieldName: 'clientKey',
-    },
-    {
-      componentProps: {
-        disabled: update,
-      },
-      fieldName: 'clientSecret',
-    },
-  ]);
-}
-
 const { onBeforeClose, markInitialized, resetInitialized } = useBeforeCloseDiff(
   {
     initializedGetter: defaultFormValueGetter(formApi),
     currentGetter: defaultFormValueGetter(formApi),
   },
 );
-
-// 提取生成状态字段Schema的函数
-const getStatusSchema = (disabled: boolean) => [
-  {
-    componentProps: { disabled },
-    fieldName: 'status',
-  },
-];
 
 const [BasicDrawer, drawerApi] = useVbenDrawer({
   onBeforeClose,
@@ -83,16 +51,9 @@ const [BasicDrawer, drawerApi] = useVbenDrawer({
 
     const { id } = drawerApi.getData() as { id?: number | string };
     isUpdate.value = !!id;
-    // 初始化
-    setupForm(isUpdate.value);
     if (isUpdate.value && id) {
       const record = await testInfo(id);
-      // 不能禁用id为1的记录
-      formApi.updateSchema(getStatusSchema(record.id === 1));
       await formApi.setValues(record);
-    } else {
-      // 新增模式: 确保状态字段可用
-      formApi.updateSchema(getStatusSchema(false));
     }
     await markInitialized();
 
