@@ -40,9 +40,7 @@ const bindProps = computed(() => {
 });
 
 function toggleTheme(event: MouseEvent) {
-  const isAppearanceTransition =
-    // @ts-expect-error
-    document.startViewTransition;
+  const isAppearanceTransition = document.startViewTransition;
   if (!isAppearanceTransition || !event) {
     isDark.value = !isDark.value;
     return;
