@@ -2,7 +2,7 @@
 import type { VbenFormSchema } from '@vben/common-ui';
 import type { BasicOption, Recordable } from '@vben/types';
 
-import { computed, markRaw, useTemplateRef } from 'vue';
+import { computed, useTemplateRef } from 'vue';
 
 import { AuthenticationLogin, SliderCaptcha, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
@@ -95,13 +95,6 @@ const formSchema = computed((): VbenFormSchema[] => {
       label: $t('authentication.password'),
       rules: z.string().min(1, { message: $t('authentication.passwordTip') }),
     },
-    {
-      component: markRaw(SliderCaptcha),
-      fieldName: 'captcha',
-      rules: z.boolean().refine((value) => value, {
-        message: $t('authentication.verifyRequiredTip'),
-      }),
-    },
   ];
 });
 
@@ -109,6 +102,29 @@ const loginRef =
   useTemplateRef<InstanceType<typeof AuthenticationLogin>>('loginRef');
 
 async function onSubmit(params: Recordable<any>) {
+  const captchaConfig = {
+    // 请求验证码接口
+    requestCaptchaDataUrl: 'http://localhost:8083/gen',
+    // 验证验证码接口
+    validCaptchaUrl: 'http://localhost:8083/check',
+    // 绑定的div
+    bindEl: '#captcha-div',
+    // 验证成功回调函数
+    validSuccess: (res: any, c: any, t: any) => {
+      // 验证码验证成功回调...
+      // 销毁验证码
+      t.destroyWindow();
+      // 验证成功: token:${res.data.token}
+      // todo 携带token调用登录接口
+    },
+  };
+
+  window.initTAC('static/tac', captchaConfig).then((tac) => {
+    tac.init();
+  });
+
+  console.log('params', params);
+
   authStore.authLogin(params).catch(() => {
     // 登陆失败，刷新验证码的演示
 
@@ -128,4 +144,5 @@ async function onSubmit(params: Recordable<any>) {
     :loading="authStore.loginLoading"
     @submit="onSubmit"
   />
+  <div id="captcha-box"></div>
 </template>
