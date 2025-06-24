@@ -38,8 +38,8 @@ const { authPanelCenter, authPanelLeft, authPanelRight, isDark } =
 
 <template>
   <div
-    :class="[isDark]"
-    class="flex min-h-full flex-1 select-none overflow-x-hidden"
+    :class="[isDark ? 'dark' : '']"
+    class="flex min-h-full flex-1 select-none"
   >
     <template v-if="toolbar">
       <slot name="toolbar">
