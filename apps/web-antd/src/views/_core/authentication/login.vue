@@ -1,11 +1,16 @@
 <script lang="ts" setup>
-import type { LoginAndRegisterParams, VbenFormSchema } from '@vben/common-ui';
+import type {
+  CaptchaPoint,
+  LoginAndRegisterParams,
+  VbenFormSchema,
+} from '@vben/common-ui';
 
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
-import { AuthenticationLogin, z } from '@vben/common-ui';
+import { AuthenticationLogin, PointSelectionCaptcha, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
+import { CaptchaApi, checkCaptcha, getCaptcha } from '#/api';
 import { useAuthStore } from '#/store';
 
 defineOptions({ name: 'Login' });
@@ -35,59 +40,112 @@ const formSchema = computed((): VbenFormSchema[] => {
   ];
 });
 
-const submit = (
+const submit = async (
   params: LoginAndRegisterParams,
   onSuccess?: () => Promise<void> | void,
 ) => {
-  const baseURL = import.meta.env.VITE_GLOB_API_URL;
-  const captchaConfig = {
-    // 请求验证码接口
-    requestCaptchaDataUrl: `${baseURL}/auth/captcha`,
-    // 验证验证码接口
-    validCaptchaUrl: `${baseURL}/auth/captcha/verify`,
-    // 绑定的div
-    bindEl: '#captcha-box',
-    // 验证成功回调函数
-    validSuccess: (res: any, c: any, t: any) => {
-      // 验证码验证成功回调...
-      // 销毁验证码
-      t.destroyWindow();
+  const captcha = await getCaptcha();
 
-      // console.log(`验证成功: token`, res);
-      // 携带token调用登录接口
-      params.uuid = res.data.id;
-      authStore.authLogin(params, onSuccess);
-    },
-  };
+  backgroundImage.value = captcha.captcha.backgroundImage;
+  templateImage.value = captcha.captcha.templateImage;
+  captchaId.value = captcha.id;
+  loginParams.value = params;
+  loginOnSuccess.value = onSuccess;
+  // new Date().getTime() - startTime.getTime()
+  showCaptcha.value = true;
+};
 
-  const style = {
-    // 按钮样式
-    btnUrl: 'https://minio.tianai.cloud/public/captcha-btn/btn3.png',
-    // 背景样式
-    // bgUrl: "https://minio.tianai.cloud/public/captcha-btn/btn3-bg.jpg",
-    bgUrl:
-      'https://img1.baidu.com/it/u=1669573393,120316417&fm=253&fmt=auto&app=120&f=JPEG',
-    // logo地址
-    logoUrl: ' ',
-    // 滑动边框样式
-    moveTrackMaskBgColor: '#f7b645',
-    moveTrackMaskBorderColor: '#ef9c0d',
-  };
+const clickCount = ref(0);
+const backgroundImage = ref('');
+const templateImage = ref('');
+const showCaptcha = ref(false);
+const startTime = ref<Date>(new Date());
+const trackList = ref<CaptchaApi.Track[]>([]);
+const captchaId = ref<string | undefined>(undefined);
+const loginParams = ref<LoginAndRegisterParams>({
+  username: '',
+  password: '',
+  grantType: 'password',
+});
+const loginOnSuccess = ref<() => Promise<void> | void>();
 
-  window.initTAC('/static/tac', captchaConfig, style).then((tac) => {
-    tac.init();
+const handleClick = (point: CaptchaPoint) => {
+  clickCount.value++;
+  if (clickCount.value === 1) {
+    startTime.value = new Date();
+  }
+  trackList.value.push({
+    x: point.x,
+    y: point.y,
+    t: Date.now() - startTime.value.getTime(),
+    type: 'click',
   });
+};
+
+const handleConfirm = async (points: CaptchaPoint[], clear: () => void) => {
+  const checkResponse = await checkCaptcha({
+    data: {
+      bgImageWidth: 300,
+      bgImageHeight: 180,
+      startTime: startTime.value,
+      stopTime: new Date(),
+      trackList: trackList.value,
+    },
+    id: captchaId.value,
+  });
+  clear();
+
+  if (checkResponse.id) {
+    // console.log(`验证成功: token`, res);
+    // 携带token调用登录接口
+    loginParams.value.uuid = checkResponse.id;
+    authStore.authLogin(loginParams.value, loginOnSuccess.value);
+  } else {
+    handleRefresh();
+  }
+};
+
+const handleRefresh = async () => {
+  const captcha = await getCaptcha();
+
+  backgroundImage.value = captcha.captcha.backgroundImage;
+  templateImage.value = captcha.captcha.templateImage;
+  captchaId.value = captcha.id;
+  clickCount.value = 0;
 };
 </script>
 
 <template>
-  <AuthenticationLogin
-    :form-schema="formSchema"
-    :loading="authStore.loginLoading"
-    @submit="submit"
-  />
-  <div
-    id="captcha-box"
-    class="fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 transform"
-  ></div>
+  <div>
+    <AuthenticationLogin
+      :form-schema="formSchema"
+      :loading="authStore.loginLoading"
+      @submit="submit"
+    />
+
+    <Teleport to="body">
+      <div
+        v-if="showCaptcha"
+        class="bg-overlay fixed inset-0 z-50 flex items-center justify-center"
+        @click="showCaptcha = false"
+      >
+        <PointSelectionCaptcha
+          :captcha-image="backgroundImage"
+          height="180"
+          :hint-image="templateImage"
+          padding-x="12"
+          padding-y="16"
+          :show-confirm="true"
+          :width="300"
+          @click="handleClick"
+          @confirm="handleConfirm"
+          @refresh="handleRefresh"
+        >
+          <template #title>
+            {{ $t('examples.captcha.captchaCardTitle') }}
+          </template>
+        </PointSelectionCaptcha>
+      </div>
+    </Teleport>
+  </div>
 </template>
